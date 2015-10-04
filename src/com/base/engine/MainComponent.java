@@ -1,4 +1,4 @@
-package com.base.game;
+package com.base.engine;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -66,6 +66,7 @@ public class MainComponent
                     stop();
             
                 Time.setDelta(frameTime);
+                Input.update();
                 
                 game.input();
                 game.update();
