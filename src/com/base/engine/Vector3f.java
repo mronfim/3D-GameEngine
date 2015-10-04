@@ -42,11 +42,6 @@ public class Vector3f
 		
 		return this;
 	}
-
-	public Vector3f rotate(float angle)
-	{
-		
-	}
 	
 	public Vector3f add(Vector3f v2)
 	{
@@ -58,7 +53,7 @@ public class Vector3f
 		return new Vector3f(x + r, y + r, z + r);
 	}
 	
-	public Vector3f sub(Vector2f v2)
+	public Vector3f sub(Vector3f v2)
 	{
 		return new Vector3f(x - v2.getX(), y - v2.getY(), z - v2.getZ());
 	}
@@ -101,4 +96,13 @@ public class Vector3f
 	
 	public float getZ()
 	{ return z; }
+	
+	public void setX(float x)
+	{ this.x = x; }
+	
+	public void setY(float y)
+	{ this.y = y; }
+	
+	public void setZ(float z)
+	{ this.z = z; }
 }
