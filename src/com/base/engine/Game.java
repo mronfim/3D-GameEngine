@@ -8,11 +8,13 @@ public class Game
 	private Mesh mesh;
 	private Shader shader;
 	private Transform transform;
+	private Camera camera;
 	
     public Game()
     {
         mesh = ResourceLoader.loadMesh("box.obj"); // new Mesh();
 		shader = new Shader();
+		camera = new Camera();
 		
 //		Vertex[] vertices = new Vertex[] {	new Vertex(new Vector3f( 0, 1.7f, 0)),
 //											new Vertex(new Vector3f( 1,  0, -1)),
@@ -31,6 +33,7 @@ public class Game
 		
 		transform = new Transform();
 		transform.setProjection(70f, MainComponent.WIDTH, MainComponent.HEIGHT, 0.1f, 1000);
+		transform.setCamera(camera);
 		
 		shader.addVertexShader(ResourceLoader.loadShader("basicVertex.vs"));
 		shader.addFragmentShader(ResourceLoader.loadShader("basicFragment.fs"));
@@ -41,15 +44,16 @@ public class Game
     
     public void input()
     {
-        if (Input.getKeyDown(Keyboard.KEY_UP))
+		camera.input();
+        if (Input.getKeyDown(Input.KEY_LEFT))
 			System.out.println("We've just pressed up!");
-		if (Input.getKeyUp(Keyboard.KEY_UP))
+		if (Input.getKeyUp(Input.KEY_RIGHT))
 			System.out.println("We've just released up!");
-		
-		if (Input.getMouseDown(1))
-			System.out.println("We've just right clicked at " + Input.getMousePosition());
-		if (Input.getMouseUp(1))
-			System.out.println("We've just released right mouse button!");
+//		
+//		if (Input.getMouseDown(1))
+//			System.out.println("We've just right clicked at " + Input.getMousePosition());
+//		if (Input.getMouseUp(1))
+//			System.out.println("We've just released right mouse button!");
     }
     
 	float temp = 0.0f;
@@ -60,7 +64,7 @@ public class Game
 		
 		float sinTemp = (float)Math.sin(temp);
 		
-		transform.setTranslation(sinTemp, 0, 5);
+		transform.setTranslation(0, 0, 5);
 		transform.setRotation(90*temp, 90*temp, 0);
 //		transform.setScale(sinTemp * 0.7f, sinTemp * 0.7f, sinTemp * 0.7f);
 	}
