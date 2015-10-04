@@ -23,7 +23,7 @@ public class Shader
 		glUseProgram(program);
 	}
 	
-	public void addVertexshader(String text)
+	public void addVertexShader(String text)
 	{
 		addProgram(text, GL_VERTEX_SHADER);
 	}
@@ -42,7 +42,7 @@ public class Shader
 	{
 		glLinkProgram(program);
 		
-		if (glGetShader(program, GL_LINK_STATUS) == 0)
+		if (glGetProgram(program, GL_LINK_STATUS) == 0)
 		{
 			System.err.println(glGetShaderInfoLog(program, 1024));
 			System.exit(1);
@@ -50,7 +50,7 @@ public class Shader
 		
 		glValidateProgram(program);
 		
-		if (glGetShader(program, GL_VALIDATE_STATUS) == 0)
+		if (glGetProgram(program, GL_VALIDATE_STATUS) == 0)
 		{
 			System.err.println(glGetShaderInfoLog(program, 1024));
 			System.exit(1);
@@ -76,6 +76,6 @@ public class Shader
 			System.exit(1);
 		}
 		
-		glAttachShader(shader, program);
+		glAttachShader(program, shader);
 	}
 }
