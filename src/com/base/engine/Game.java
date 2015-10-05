@@ -7,53 +7,37 @@ public class Game
 {
 	private Mesh mesh;
 	private Shader shader;
+	private Material material;
 	private Transform transform;
 	private Camera camera;
 	
     public Game()
     {
-        mesh = ResourceLoader.loadMesh("box.obj"); // new Mesh();
-		shader = new Shader();
+        mesh = new Mesh();
+		material = new Material(ResourceLoader.loadTexture("test.png"), new Vector3f(0, 1, 1));
+		shader = new BasicShader();
 		camera = new Camera();
 		
-//		Vertex[] vertices = new Vertex[] {	new Vertex(new Vector3f( 0, 1.7f, 0)),
-//											new Vertex(new Vector3f( 1,  0, -1)),
-//											new Vertex(new Vector3f( 1,  0,  1)),
-//											new Vertex(new Vector3f( -1, 0,  1)),
-//											new Vertex(new Vector3f(-1,  0, -1))};
-//		
-//		int[] indices = new int[]{0, 2, 1,
-//								  0, 3, 2,
-//								  0, 4, 3,
-//								  0, 1, 4,
-//								  1, 2, 3,
-//								  1, 3, 4};
-//		
-//		mesh.addVertices(vertices, indices);
+		Vertex[] vertices = new Vertex[] {	new Vertex(new Vector3f(-1,-1, 0), new Vector2f(0,0)),
+											new Vertex(new Vector3f( 0, 1, 0), new Vector2f(0.5f,0)),
+											new Vertex(new Vector3f( 1,-1, 0), new Vector2f(1.0f,0)),
+											new Vertex(new Vector3f( 0,-1, 1), new Vector2f(0.0f,0.5f))};
+		
+		int[] indices = new int[]{3, 1, 0,
+								  2, 1, 3,
+								  0, 1, 2,
+								  0, 2, 3};
+		
+		mesh.addVertices(vertices, indices);
 		
 		transform = new Transform();
 		transform.setProjection(70f, MainComponent.WIDTH, MainComponent.HEIGHT, 0.1f, 1000);
 		transform.setCamera(camera);
-		
-		shader.addVertexShader(ResourceLoader.loadShader("basicVertex.vs"));
-		shader.addFragmentShader(ResourceLoader.loadShader("basicFragment.fs"));
-		shader.compileShader();
-		
-		shader.addUniform("transform");
     }
     
     public void input()
     {
 		camera.input();
-        if (Input.getKeyDown(Input.KEY_LEFT))
-			System.out.println("We've just pressed up!");
-		if (Input.getKeyUp(Input.KEY_RIGHT))
-			System.out.println("We've just released up!");
-//		
-//		if (Input.getMouseDown(1))
-//			System.out.println("We've just right clicked at " + Input.getMousePosition());
-//		if (Input.getMouseUp(1))
-//			System.out.println("We've just released right mouse button!");
     }
     
 	float temp = 0.0f;
@@ -71,8 +55,9 @@ public class Game
     
     public void render()
     {
+		RenderUtil.setClearColor(transform.getCamera().getPos().div(2048f).abs());
 		shader.bind();
-		shader.setUniform("transform", transform.getProjectedTransformation());
+		shader.updateUniforms(transform.getTransformation(), transform.getProjectedTransformation(), material);
         mesh.draw();
     }
 }
